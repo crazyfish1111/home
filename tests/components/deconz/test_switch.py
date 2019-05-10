@@ -103,7 +103,7 @@ async def test_switches(hass):
     assert "switch.switch_2_name" in gateway.deconz_ids
     assert "switch.switch_3_name" in gateway.deconz_ids
     assert len(SUPPORTED_SWITCHES) == len(SWITCH_TYPES)
-    assert len(hass.states.async_all()) == 4
+    assert len(hass.states.async_all()) == 3
 
     switch_1 = hass.states.get('switch.switch_1_name')
     assert switch_1 is not None
@@ -154,4 +154,4 @@ async def test_unload_switch(hass):
 
     await gateway.async_reset()
 
-    assert len(hass.states.async_all()) == 1
+    assert len(hass.states.async_all()) == 0

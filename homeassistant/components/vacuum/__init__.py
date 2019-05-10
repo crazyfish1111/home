@@ -5,7 +5,6 @@ import logging
 
 import voluptuous as vol
 
-from homeassistant.components import group
 from homeassistant.const import (
     ATTR_BATTERY_LEVEL, ATTR_COMMAND, ATTR_ENTITY_ID, SERVICE_TOGGLE,
     SERVICE_TURN_OFF, SERVICE_TURN_ON, STATE_ON, STATE_PAUSED, STATE_IDLE)
@@ -21,9 +20,6 @@ _LOGGER = logging.getLogger(__name__)
 
 DOMAIN = 'vacuum'
 SCAN_INTERVAL = timedelta(seconds=20)
-
-GROUP_NAME_ALL_VACUUMS = 'all vacuum cleaners'
-ENTITY_ID_ALL_VACUUMS = group.ENTITY_ID_FORMAT.format('all_vacuum_cleaners')
 
 ATTR_BATTERY_ICON = 'battery_icon'
 ATTR_CLEANED_AREA = 'cleaned_area'
@@ -90,7 +86,7 @@ def is_on(hass, entity_id=None):
 async def async_setup(hass, config):
     """Set up the vacuum component."""
     component = hass.data[DOMAIN] = EntityComponent(
-        _LOGGER, DOMAIN, hass, SCAN_INTERVAL, GROUP_NAME_ALL_VACUUMS)
+        _LOGGER, DOMAIN, hass, SCAN_INTERVAL)
 
     await component.async_setup(config)
 

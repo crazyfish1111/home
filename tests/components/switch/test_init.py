@@ -34,9 +34,6 @@ class TestSwitch(unittest.TestCase):
         assert setup_component(
             self.hass, switch.DOMAIN, {switch.DOMAIN: {CONF_PLATFORM: 'test'}}
         )
-        assert switch.is_on(self.hass)
-        assert STATE_ON == \
-            self.hass.states.get(switch.ENTITY_ID_ALL_SWITCHES).state
         assert switch.is_on(self.hass, self.switch_1.entity_id)
         assert not switch.is_on(self.hass, self.switch_2.entity_id)
         assert not switch.is_on(self.hass, self.switch_3.entity_id)
@@ -46,7 +43,6 @@ class TestSwitch(unittest.TestCase):
 
         self.hass.block_till_done()
 
-        assert switch.is_on(self.hass)
         assert not switch.is_on(self.hass, self.switch_1.entity_id)
         assert switch.is_on(self.hass, self.switch_2.entity_id)
 
@@ -55,9 +51,6 @@ class TestSwitch(unittest.TestCase):
 
         self.hass.block_till_done()
 
-        assert not switch.is_on(self.hass)
-        assert STATE_OFF == \
-            self.hass.states.get(switch.ENTITY_ID_ALL_SWITCHES).state
         assert not switch.is_on(self.hass, self.switch_1.entity_id)
         assert not switch.is_on(self.hass, self.switch_2.entity_id)
         assert not switch.is_on(self.hass, self.switch_3.entity_id)
@@ -67,9 +60,6 @@ class TestSwitch(unittest.TestCase):
 
         self.hass.block_till_done()
 
-        assert switch.is_on(self.hass)
-        assert STATE_ON == \
-            self.hass.states.get(switch.ENTITY_ID_ALL_SWITCHES).state
         assert switch.is_on(self.hass, self.switch_1.entity_id)
         assert switch.is_on(self.hass, self.switch_2.entity_id)
         assert switch.is_on(self.hass, self.switch_3.entity_id)

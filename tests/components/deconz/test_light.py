@@ -126,7 +126,7 @@ async def test_lights_and_groups(hass):
     assert "light.light_2_name" in gateway.deconz_ids
     assert "light.group_1_name" in gateway.deconz_ids
     assert "light.group_2_name" not in gateway.deconz_ids
-    assert len(hass.states.async_all()) == 4
+    assert len(hass.states.async_all()) == 3
 
     lamp_1 = hass.states.get('light.light_1_name')
     assert lamp_1 is not None
@@ -215,5 +215,4 @@ async def test_unload_light(hass):
 
     await gateway.async_reset()
 
-    # Group.all_lights will not be removed
-    assert len(hass.states.async_all()) == 1
+    assert len(hass.states.async_all()) == 0

@@ -8,8 +8,6 @@ import os
 import voluptuous as vol
 
 from homeassistant.auth.permissions.const import POLICY_CONTROL
-from homeassistant.components.group import \
-    ENTITY_ID_FORMAT as GROUP_ENTITY_ID_FORMAT
 from homeassistant.const import (
     ATTR_ENTITY_ID, SERVICE_TOGGLE, SERVICE_TURN_OFF, SERVICE_TURN_ON,
     STATE_ON)
@@ -25,9 +23,6 @@ import homeassistant.util.color as color_util
 
 DOMAIN = 'light'
 SCAN_INTERVAL = timedelta(seconds=30)
-
-GROUP_NAME_ALL_LIGHTS = 'all lights'
-ENTITY_ID_ALL_LIGHTS = GROUP_ENTITY_ID_FORMAT.format('all_lights')
 
 ENTITY_ID_FORMAT = DOMAIN + '.{}'
 
@@ -129,9 +124,8 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @bind_hass
-def is_on(hass, entity_id=None):
+def is_on(hass, entity_id):
     """Return if the lights are on based on the statemachine."""
-    entity_id = entity_id or ENTITY_ID_ALL_LIGHTS
     return hass.states.is_state(entity_id, STATE_ON)
 
 
@@ -244,7 +238,7 @@ class SetIntentHandler(intent.IntentHandler):
 async def async_setup(hass, config):
     """Expose light control via state machine and services."""
     component = hass.data[DOMAIN] = EntityComponent(
-        _LOGGER, DOMAIN, hass, SCAN_INTERVAL, GROUP_NAME_ALL_LIGHTS)
+        _LOGGER, DOMAIN, hass, SCAN_INTERVAL)
     await component.async_setup(config)
 
     # load profiles from files
@@ -386,7 +380,7 @@ class Profiles:
         name = entity_id + ".default"
         if name in cls._all:
             return name
-        name = ENTITY_ID_ALL_LIGHTS + ".default"
+        name = "group.all_lights.default"
         if name in cls._all:
             return name
         return None

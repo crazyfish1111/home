@@ -14,7 +14,6 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_per_platform, discovery
 from homeassistant.helpers.service import async_extract_entity_ids
 from homeassistant.loader import bind_hass, async_get_integration
-from homeassistant.util import slugify
 from .entity_platform import EntityPlatform
 
 DEFAULT_SCAN_INTERVAL = timedelta(seconds=15)
@@ -49,18 +48,16 @@ class EntityComponent:
      - Process the configuration and set up a platform based component.
      - Manage the platforms and their entities.
      - Help extract the entities from a service call.
-     - Maintain a group that tracks all platform entities.
      - Listen for discovery events for platforms related to the domain.
     """
 
     def __init__(self, logger, domain, hass,
-                 scan_interval=DEFAULT_SCAN_INTERVAL, group_name=None):
+                 scan_interval=DEFAULT_SCAN_INTERVAL):
         """Initialize an entity component."""
         self.logger = logger
         self.hass = hass
         self.domain = domain
         self.scan_interval = scan_interval
-        self.group_name = group_name
 
         self.config = None
 
@@ -220,27 +217,6 @@ class EntityComponent:
 
         await self._platforms[key].async_setup(platform_config, discovery_info)
 
-    @callback
-    def _async_update_group(self):
-        """Set up and/or update component group.
-
-        This method must be run in the event loop.
-        """
-        if self.group_name is None:
-            return
-
-        ids = [entity.entity_id for entity in
-               sorted(self.entities,
-                      key=lambda entity: entity.name or entity.entity_id)]
-
-        self.hass.async_create_task(
-            self.hass.services.async_call(
-                'group', 'set', dict(
-                    object_id=slugify(self.group_name),
-                    name=self.group_name,
-                    visible=False,
-                    entities=ids)))
-
     async def _async_reset(self):
         """Remove entities and reset the entity component to initial values.
 
@@ -256,11 +232,6 @@ class EntityComponent:
             self.domain: self._platforms[self.domain]
         }
         self.config = None
-
-        if self.group_name is not None:
-            await self.hass.services.async_call(
-                'group', 'remove', dict(
-                    object_id=slugify(self.group_name)))
 
     async def async_remove_entity(self, entity_id):
         """Remove an entity managed by one of the platforms."""
@@ -305,5 +276,4 @@ class EntityComponent:
             platform=platform,
             scan_interval=scan_interval,
             entity_namespace=entity_namespace,
-            async_entities_added_callback=self._async_update_group,
         )

@@ -5,7 +5,6 @@ import logging
 
 import voluptuous as vol
 
-from homeassistant.components import group
 from homeassistant.components.recorder.util import execute, session_scope
 from homeassistant.const import (
     ATTR_TEMPERATURE, ATTR_UNIT_OF_MEASUREMENT, CONF_SENSORS, STATE_OK,
@@ -89,8 +88,6 @@ PLANT_SCHEMA = vol.Schema({
 })
 
 DOMAIN = 'plant'
-GROUP_NAME_ALL_PLANTS = 'all plants'
-ENTITY_ID_ALL_PLANTS = group.ENTITY_ID_FORMAT.format('all_plants')
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: {
@@ -107,7 +104,7 @@ ENABLE_LOAD_HISTORY = False
 async def async_setup(hass, config):
     """Set up the Plant component."""
     component = EntityComponent(
-        _LOGGER, DOMAIN, hass, group_name=GROUP_NAME_ALL_PLANTS)
+        _LOGGER, DOMAIN, hass)
 
     entities = []
     for plant_name, plant_config in config[DOMAIN].items():

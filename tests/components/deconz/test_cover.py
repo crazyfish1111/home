@@ -97,7 +97,7 @@ async def test_cover(hass):
         gateway = await setup_gateway(hass, {"lights": SUPPORTED_COVERS})
     assert "cover.cover_1_name" in gateway.deconz_ids
     assert len(SUPPORTED_COVERS) == len(COVER_TYPES)
-    assert len(hass.states.async_all()) == 3
+    assert len(hass.states.async_all()) == 2
 
     cover_1 = hass.states.get('cover.cover_1_name')
     assert cover_1 is not None
@@ -146,4 +146,4 @@ async def test_unload_cover(hass):
 
     await gateway.async_reset()
 
-    assert len(hass.states.async_all()) == 1
+    assert len(hass.states.async_all()) == 0
