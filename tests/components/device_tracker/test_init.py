@@ -12,9 +12,9 @@ from homeassistant.components import zone
 import homeassistant.components.device_tracker as device_tracker
 from homeassistant.components.device_tracker import const, legacy
 from homeassistant.const import (
-    ATTR_ENTITY_ID, ATTR_ENTITY_PICTURE, ATTR_FRIENDLY_NAME, ATTR_HIDDEN,
-    ATTR_ICON, CONF_PLATFORM, STATE_HOME, STATE_NOT_HOME,
-    ATTR_LATITUDE, ATTR_LONGITUDE, ATTR_GPS_ACCURACY)
+    ATTR_LATITUDE, ATTR_LONGITUDE, ATTR_GPS_ACCURACY,
+    ATTR_ENTITY_PICTURE, ATTR_FRIENDLY_NAME, ATTR_HIDDEN,
+    ATTR_ICON, CONF_PLATFORM, STATE_HOME, STATE_NOT_HOME)
 from homeassistant.core import State, callback
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import discovery
