@@ -5,7 +5,7 @@ import unittest
 from homeassistant.setup import setup_component, async_setup_component
 from homeassistant import core
 from homeassistant.components import switch
-from homeassistant.const import STATE_ON, STATE_OFF, CONF_PLATFORM
+from homeassistant.const import CONF_PLATFORM
 
 from tests.common import get_test_home_assistant, mock_entity_platform
 from tests.components.switch import common
