@@ -204,7 +204,6 @@ async def async_setup(hass, config):
             hass.services.async_call(
                 DOMAIN_LIGHT, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: light_ids}))
 
-    print("TRACKING", device_entity_ids)
     async_track_state_change(
         hass, device_entity_ids, turn_off_lights_when_all_leave,
         STATE_HOME, STATE_NOT_HOME)
