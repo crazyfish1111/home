@@ -96,7 +96,7 @@ async def test_switches(hass):
         device.api.stream.event.manage_event(event)
     await hass.async_block_till_done()
 
-    assert len(hass.states.async_all()) == 3
+    assert len(hass.states.async_all()) == 2
 
     relay_0 = hass.states.get('switch.model_0_doorbell')
     assert relay_0.state == 'off'
